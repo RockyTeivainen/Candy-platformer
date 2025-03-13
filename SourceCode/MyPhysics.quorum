@@ -1,0 +1,15 @@
+use Libraries.Game.Game
+use Libraries.Interface.Events.CollisionListener2D
+use Libraries.Interface.Events.CollisionEvent2D
+use Libraries.Compute.Vector2
+use Libraries.Game.Layer2D
+
+
+class MyPhysics is Game
+Vector2 gravity
+
+    action Gravity
+        gravity:Set(0,-100)
+        SetGravity2D(gravity)
+    end
+end

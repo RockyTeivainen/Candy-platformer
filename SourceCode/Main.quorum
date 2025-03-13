@@ -1,0 +1,42 @@
+use Libraries.Game.ScreenResolution
+use Libraries.Game.Game
+use Libraries.Game.Graphics.Drawable
+use Libraries.Game.Layer2D
+use Libraries.Compute.Vector2
+
+class Main is Game
+    ScreenResolution resolution 
+    GroundProperties groundObject
+    Drawable ground
+    Vector2 gravity
+
+    
+    
+
+    action Main
+        UseDesktopResolution()
+        resolution:GetWidth()
+        StartGame()
+    end
+
+    action CreateGame
+        EnablePhysics2D(true)
+
+        // Create the ground using the separate Ground class
+        groundObject:CreateGround()
+        ground = groundObject:GetGround()
+        
+        // Add the ground to the game
+        //Add gravity
+        Add(ground)
+        gravity:Set(0,-100)
+        SetGravity2D(gravity)
+        
+        
+    end
+
+    action Update(number seconds)
+
+    end
+
+end

@@ -1,0 +1,22 @@
+use Libraries.Game.Graphics.Drawable
+use Libraries.Game.Graphics.Color
+
+class GroundProperties
+    Drawable ground
+    Color color
+
+    action CreateGround()
+        ground:SetName("ground")
+
+        ground:LoadFilledRectangle(2560, 100) 
+
+        ground:SetPosition(0, 0)
+        ground:SetColor(color:Green())
+        ground:EnablePhysics(true)
+        ground:SetUnmovable()
+    end
+
+    action GetGround() returns Drawable
+        return ground
+    end
+end
