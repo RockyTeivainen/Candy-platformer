@@ -1,0 +1,23 @@
+use Libraries.Game.Game
+use Libraries.Game.Graphics.Drawable
+use Libraries.Game.Graphics.Color
+use Libraries.Compute.Vector2
+
+
+class PlayerProperties
+        Drawable player
+        Color playerColor
+    action CreatePlayer
+        player:SetName("player")
+        player:LoadFilledCircle(60) 
+        player:SetPosition(700, 110)
+        player:EnablePhysics(true)
+        player:SetResponsive()
+        playerColor:SetHexColor("#191970")
+        player:SetColor(playerColor)
+    end
+    
+    action GetPlayer() returns Drawable
+    return player
+    end
+end

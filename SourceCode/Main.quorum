@@ -3,13 +3,14 @@ use Libraries.Game.Game
 use Libraries.Game.Graphics.Drawable
 use Libraries.Game.Layer2D
 use Libraries.Compute.Vector2
-
 class Main is Game
     ScreenResolution resolution 
     GroundProperties groundObject
     Drawable ground
+    Drawable player
     Vector2 gravity
-
+    PhysicsHandler physics
+    PlayerProperties playerObject
     
     
 
@@ -22,15 +23,22 @@ class Main is Game
     action CreateGame
         EnablePhysics2D(true)
 
-        // Create the ground using the separate Ground class
+
+        // Create the ground using the separate GroundProperties class
         groundObject:CreateGround()
         ground = groundObject:GetGround()
         
         // Add the ground to the game
-        //Add gravity
         Add(ground)
-        gravity:Set(0,-100)
-        SetGravity2D(gravity)
+        //Add gravity
+        physics:PhysicsHandler(me)
+        physics:ApplyGravity()
+        
+        //Create the player using the separate PlayerProperties class
+        playerObject:CreatePlayer()
+        player = playerObject:GetPlayer()
+        //Add the player to the game
+        Add(player)
         
         
     end

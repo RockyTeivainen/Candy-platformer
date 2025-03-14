@@ -1,0 +1,14 @@
+use Libraries.Game.Game
+
+class PhysicsHandler
+    Game gameReference
+        
+    
+    action PhysicsHandler(Game game)
+        gameReference = game
+    end
+    
+    action ApplyGravity
+        gameReference:SetGravity2D(0, -100)
+    end
+end

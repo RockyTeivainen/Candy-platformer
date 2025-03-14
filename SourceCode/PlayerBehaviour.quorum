@@ -1,0 +1,18 @@
+use Libraries.Game.Game
+use Libraries.Game.Graphics.Drawable
+use Libraries.Game.Graphics.Color
+use Libraries.Compute.Vector2
+
+
+class PlayerBehaviour
+        Drawable player
+        Color playerColor
+    action CreatePlayer
+        player:SetName("player")
+        player:LoadFilledRectangle(2560, 100) 
+        player:SetPosition(1280, 30)
+        playerColor:SetHexColor("#191970")
+        player:EnablePhysics(true)
+        player:SetResponsive()
+    end
+end
