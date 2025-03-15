@@ -9,12 +9,12 @@ class PlayerProperties
         Color playerColor
     action CreatePlayer
         player:SetName("player")
-        player:LoadFilledCircle(60) 
-        player:SetPosition(700, 110)
-        player:EnablePhysics(true)
-        player:SetResponsive()
+        player:LoadFilledCircle(60)
+        player:SetPosition(1280,150)
         playerColor:SetHexColor("#191970")
         player:SetColor(playerColor)
+        player:EnablePhysics(true)
+        player:SetResponsive()
     end
     
     action GetPlayer() returns Drawable

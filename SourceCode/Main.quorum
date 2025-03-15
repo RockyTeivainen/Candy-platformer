@@ -1,7 +1,6 @@
 use Libraries.Game.ScreenResolution
 use Libraries.Game.Game
 use Libraries.Game.Graphics.Drawable
-use Libraries.Game.Layer2D
 use Libraries.Compute.Vector2
 class Main is Game
     ScreenResolution resolution 
