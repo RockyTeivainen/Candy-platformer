@@ -38,11 +38,14 @@ class Main is Game
         player = playerObject:GetPlayer()
         //Add the player to the game
         Add(player)
+        //Add keyboard listener to the game
+        AddKeyboardListener(playerObject)
         
         
     end
 
     action Update(number seconds)
+        playerObject:MovePlayer()
 
     end
 

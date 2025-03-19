@@ -2,22 +2,79 @@ use Libraries.Game.Game
 use Libraries.Game.Graphics.Drawable
 use Libraries.Game.Graphics.Color
 use Libraries.Compute.Vector2
+use Libraries.Interface.Events.KeyboardListener
+use Libraries.Interface.Events.KeyboardEvent
 
 
-class PlayerProperties
-        Drawable player
-        Color playerColor
+class PlayerProperties is KeyboardListener
+    PhysicsHandler physics
+    Drawable player
+    Color playerColor
+    Vector2 playerVelocity
+
+    //Support variables leftHeld, rightHeld
+    boolean leftHeld = false
+    boolean rightHeld = false
+
+    
+    //Create the player with pre-defined dimensions, name, color, and position
     action CreatePlayer
         player:SetName("player")
         player:LoadFilledCircle(60)
-        player:SetPosition(1280,150)
+        player:SetPosition(1280,130 )
         playerColor:SetHexColor("#191970")
         player:SetColor(playerColor)
         player:EnablePhysics(true)
         player:SetResponsive()
     end
     
+
+
+    //Get the player drawable
     action GetPlayer() returns Drawable
     return player
     end
+
+
+    //Movement key behaviour
+    action PressedKey(KeyboardEvent event)
+        //If A or left arrow pressed, leftHeld becomes true
+        if event:keyCode = event:A or event:keyCode = event:LEFT
+            leftHeld = true
+        //If S or right arrow pressed, rightHeld becomes true
+        elseif event:keyCode = event:D or event:keyCode = event:RIGHT
+            rightHeld = true
+        end
+    end
+    action ReleasedKey(KeyboardEvent event)
+        //If A or left arrow pressed, leftHeld becomes false
+        if event:keyCode = event:A or event:keyCode = event:LEFT
+            leftHeld = false
+        //If D or right arrow pressed, rightHeld becomes false
+        elseif event:keyCode = event:D or event:keyCode = event:RIGHT
+            rightHeld = false
+        end
+    end
+    
+
+
+    //Move the player when the correct keys are pressed
+    action MovePlayer
+        //Speed value
+        integer speed = 100
+        //Move left if leftHeld is true
+        if leftHeld
+            player:SetLinearVelocityX(-speed)
+        //Move right if rightHeld is true
+        elseif rightHeld
+            player:SetLinearVelocityX(speed)
+        //Otherwise, the player doesn't move
+        else
+            player:SetLinearVelocityX(0)
+        end
+    end
+
+
+
 end
+
