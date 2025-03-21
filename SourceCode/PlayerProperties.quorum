@@ -1,31 +1,37 @@
 use Libraries.Game.Game
 use Libraries.Game.Graphics.Drawable
 use Libraries.Game.Graphics.Color
-use Libraries.Compute.Vector2
 use Libraries.Interface.Events.KeyboardListener
 use Libraries.Interface.Events.KeyboardEvent
 
+use Libraries.Interface.Events.CollisionListener2D
+use Libraries.Interface.Events.CollisionEvent2D
+use Libraries.Interface.Item2D
 
-class PlayerProperties is KeyboardListener
+
+
+class PlayerProperties is KeyboardListener, CollisionListener2D
     PhysicsHandler physics
     Drawable player
     Color playerColor
-    Vector2 playerVelocity
 
-    //Support variables leftHeld, rightHeld
+    //Support variables leftHeld, rightHeld, jumpAllowed, isJumping
     boolean leftHeld = false
     boolean rightHeld = false
+    boolean jumpAllowed = false
+    boolean jumpPressed = false
 
     
     //Create the player with pre-defined dimensions, name, color, and position
     action CreatePlayer
         player:SetName("player")
         player:LoadFilledCircle(60)
-        player:SetPosition(1280,130 )
+        player:SetPosition(1280,200.51147065127617)
         playerColor:SetHexColor("#191970")
         player:SetColor(playerColor)
         player:EnablePhysics(true)
         player:SetResponsive()
+        player:SetCollidable(true)
     end
     
 
@@ -34,25 +40,48 @@ class PlayerProperties is KeyboardListener
     action GetPlayer() returns Drawable
     return player
     end
+    
+    //Get the jumpAllowed boolean
+    action GetJumpAllowed returns boolean
+        return jumpAllowed
+    end
 
-
-    //Movement key behaviour
+    
     action PressedKey(KeyboardEvent event)
+        //Movement key behaviour when pressing
         //If A or left arrow pressed, leftHeld becomes true
         if event:keyCode = event:A or event:keyCode = event:LEFT
             leftHeld = true
         //If S or right arrow pressed, rightHeld becomes true
-        elseif event:keyCode = event:D or event:keyCode = event:RIGHT
+        elseif event:keyCode = event:D or 
+        event:keyCode = event:RIGHT
             rightHeld = true
+        end
+
+        //Jump key behaviour when pressing
+        //If W, space or up arrow pressed, jumpPressed becomes true
+        if event:keyCode = event:W or 
+        event:keyCode = event:UP or
+        event:keyCode = event:SPACE
+            jumpPressed = true
         end
     end
     action ReleasedKey(KeyboardEvent event)
-        //If A or left arrow pressed, leftHeld becomes false
+        //Movement key behaviour when releasing
+        //If A or left arrow released, leftHeld becomes false
         if event:keyCode = event:A or event:keyCode = event:LEFT
             leftHeld = false
-        //If D or right arrow pressed, rightHeld becomes false
+        //If D or right arrow released, rightHeld becomes false
         elseif event:keyCode = event:D or event:keyCode = event:RIGHT
             rightHeld = false
+       
+        end
+        //Jump key behaviour when releasing
+        //If W, space or up arrow pressed, jumpPressed becomes true
+        if event:keyCode = event:W or 
+        event:keyCode = event:UP or
+        event:keyCode = event:SPACE
+            jumpPressed = false
         end
     end
     
@@ -71,6 +100,14 @@ class PlayerProperties is KeyboardListener
         //Otherwise, the player doesn't move
         else
             player:SetLinearVelocityX(0)
+        end
+    end
+    //Jumping
+    action Jump
+        //Jump force value
+        integer jumpForce = 40
+        if jumpPressed
+            player:SetLinearVelocityY(jumpForce)
         end
     end
 

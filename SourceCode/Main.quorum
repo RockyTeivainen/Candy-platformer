@@ -10,7 +10,8 @@ class Main is Game
     Vector2 gravity
     PhysicsHandler physics
     PlayerProperties playerObject
-    
+    CollisionTracker collisions
+    boolean jumpAllowed = playerObject:GetJumpAllowed()
     
 
     action Main
@@ -40,13 +41,15 @@ class Main is Game
         Add(player)
         //Add keyboard listener to the game
         AddKeyboardListener(playerObject)
+        AddCollisionListener(collisions)
         
         
     end
 
     action Update(number seconds)
+        //Move the player and handle jumping
         playerObject:MovePlayer()
-
+        playerObject:Jump()
     end
 
 end

@@ -1,0 +1,43 @@
+use Libraries.Game.Graphics.Drawable
+use Libraries.Interface.Events.CollisionListener2D
+use Libraries.Interface.Events.CollisionEvent2D
+use Libraries.Interface.Item2D
+
+class CollisionTracker is CollisionListener2D
+    //Create objects for the GroundProperties
+    //and PlayerProperties classes to use their
+    //contents
+    GroundProperties groundObject
+    PlayerProperties playerObject
+    //Get ground, player and JumpAllowed from their own classes
+    Drawable ground = groundObject:GetGround()
+    Drawable player = playerObject:GetPlayer()
+    boolean jumpAllowed = playerObject:GetJumpAllowed()
+
+    //Check for collisions
+    action BeginCollision(CollisionEvent2D event)
+        //Get the items from the collision
+        Drawable itemA = cast(Drawable, event:GetItemA())
+        Drawable itemB = cast(Drawable, event:GetItemB())
+        
+        //If itemA is player and itemB is ground or       
+        //the other way around, allow jump
+        if itemA:GetName() = "ground" and itemB:GetName() = "player" or 
+        itemB:GetName() = "player" and itemA:GetName() = "ground"
+            jumpAllowed = true
+        end
+    end
+    
+    action FinishCollision(CollisionEvent2D event)
+        //Get the items from the collision
+        Drawable itemA = cast(Drawable, event:GetItemA())
+        Drawable itemB = cast(Drawable, event:GetItemB())
+        
+        //If itemA is player and itemB is ground or       
+        //the other way around, don't allow jumping anymore
+        if itemA:GetName() = "ground" and itemB:GetName() = "player" or 
+        itemB:GetName() = "player" and itemA:GetName() = "ground"
+            jumpAllowed = false
+        end
+    end
+end
