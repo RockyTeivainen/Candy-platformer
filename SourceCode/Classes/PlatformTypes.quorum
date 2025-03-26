@@ -11,11 +11,12 @@ class PlatformTypes
         narrowPlatform:name = "Narrow platform" //Set platform name
         narrowPlatform:width = 30   //Set platform width
         //Set the coordinates
-        narrowPlatform:xPosition = 450
-        narrowPlatform:yPosition = 340
-        narrowPlatform:hexCode = "#00FFFF" //Color of the platform type
+        narrowPlatform:xPosition = 2560/2
+        narrowPlatform:yPosition = 400
+        narrowPlatform:hexCode = "#0000" //Color of the platform type
         PlatformList:Add(narrowPlatform)
     end
+
     //Make it possible to inherit the list to other classes
     action GetPlatforms returns List<Platform>
         return PlatformList

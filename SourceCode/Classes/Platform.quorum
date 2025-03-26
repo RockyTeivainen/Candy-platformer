@@ -15,7 +15,7 @@ class Platform
     text hexCode = "" //Create variable to store the hex code for the wanted color
     Color color //Color of the platform type
     
-    
+    //Create the platform
     action CreatePlatform
         platform:SetName(name)
         platform:LoadFilledRectangle(width, 100) 
@@ -26,6 +26,9 @@ class Platform
         platform:SetUnmovable()
         platform:SetCollidable(true)
     end
-    
+    //Inherit the platform to elsewhere
+    action GetPlatform returns Drawable
+        return platform
+    end
     
 end
