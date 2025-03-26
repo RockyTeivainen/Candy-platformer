@@ -5,6 +5,7 @@ use Libraries.Compute.Vector2
 use Libraries.Containers.List
 
 class Main is Game
+    //Create the neseccary objects and a boolean that will help with jumps
     ScreenResolution resolution 
     GroundProperties groundObject
     Drawable ground
