@@ -2,18 +2,20 @@ use Libraries.Game.ScreenResolution
 use Libraries.Game.Game
 use Libraries.Game.Graphics.Drawable
 use Libraries.Compute.Vector2
+use Libraries.Containers.List
+
 class Main is Game
     ScreenResolution resolution 
     GroundProperties groundObject
     Drawable ground
     Drawable player
-    Vector2 gravity
     PhysicsHandler physics
     PlayerProperties playerObject
     CollisionTracker collisions
     boolean jumpAllowed = playerObject:GetJumpAllowed()
+    List<Platform> PlatformList
+    PlatformTypes platformManager
     
-
     action Main
         UseDesktopResolution()
         resolution:GetWidth()
@@ -22,11 +24,13 @@ class Main is Game
 
     action CreateGame
         EnablePhysics2D(true)
+        
 
 
         // Create the ground using the separate GroundProperties class
         groundObject:CreateGround()
         ground = groundObject:GetGround()
+
         
         // Add the ground to the game
         Add(ground)
@@ -41,7 +45,17 @@ class Main is Game
         Add(player)
         //Add keyboard listener to the game
         AddKeyboardListener(playerObject)
-        AddCollisionListener(collisions)
+
+
+        //Get platforms and add them to the game
+        PlatformList = platforms:GetPlatforms()
+        integer i = 0
+        repeat while i < PlatformList:GetSize()
+        Platforn current = PlatformList:Get(i)
+        current:CreatePlatform()
+        i = i + 1
+    end
+        
         
         
     end
@@ -53,3 +67,4 @@ class Main is Game
     end
 
 end
+
