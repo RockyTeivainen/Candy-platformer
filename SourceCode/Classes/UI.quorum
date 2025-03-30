@@ -1,0 +1,70 @@
+use Libraries.Game.Game
+use Libraries.Interface.Events.KeyboardListener
+use Libraries.Interface.Events.KeyboardEvent
+use Libraries.Containers.List
+
+class UI is KeyboardListener, Game
+    boolean escPressed = false
+    action GetEscPressed returns boolean
+        return escPressed
+    end
+
+
+
+    boolean leftHeld = false
+    boolean rightHeld = false
+    boolean jumpPressed = false
+    
+    action GetLeftHeld returns boolean
+        return leftHeld
+    end
+    action GeRighttHeld returns boolean
+        return rightHeld
+    end
+    action GetJumpPressed returns boolean
+        return jumpPressed
+    end
+    
+
+        action PressedKey(KeyboardEvent event)
+        //Movement key behaviour when pressing
+        //If A or left arrow pressed, leftHeld becomes true
+        if event:keyCode = event:A or event:keyCode = event:LEFT
+            leftHeld = true
+            
+
+        //If S or right arrow pressed, rightHeld becomes true
+        elseif event:keyCode = event:D or 
+        event:keyCode = event:RIGHT
+            output rightHeld //Debug
+            rightHeld = true
+        end
+
+        //Jump key behaviour when pressing
+        //If W, space or up arrow pressed, jumpPressed becomes true
+        if event:keyCode = event:W or 
+        event:keyCode = event:UP or
+        event:keyCode = event:SPACE
+            output jumpPressed
+            jumpPressed = true
+        end
+    end
+    action ReleasedKey(KeyboardEvent event)
+        //Movement key behaviour when releasing
+        //If A or left arrow released, leftHeld becomes false
+        if event:keyCode = event:A or event:keyCode = event:LEFT
+            leftHeld = false
+        //If D or right arrow released, rightHeld becomes false
+        elseif event:keyCode = event:D or event:keyCode = event:RIGHT
+            rightHeld = false
+       
+        end
+        //Jump key behaviour when releasing
+        //If W, space or up arrow pressed, jumpPressed becomes true
+        if event:keyCode = event:W or 
+        event:keyCode = event:UP or
+        event:keyCode = event:SPACE
+            jumpPressed = false
+        end
+    end
+end

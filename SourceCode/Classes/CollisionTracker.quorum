@@ -12,22 +12,23 @@ class CollisionTracker is CollisionListener2D
     //contents
     GroundProperties groundObject
     PlayerProperties playerObject
-    //Get ground, player and JumpAllowed from their own classes
+    //Get ground and player from their own classes
     Drawable ground = groundObject:GetGround()
     Drawable player = playerObject:GetPlayer()
-    boolean jumpAllowed = playerObject:GetJumpAllowed()
+    //Drawable groundChecker = playerObject:GetGroundChecker()
 
+/*
     //Check for collisions
     action BeginCollision(CollisionEvent2D event)
         //Get the items from the collision
         Drawable itemA = cast(Drawable, event:GetItemA())
         Drawable itemB = cast(Drawable, event:GetItemB())
         
-        //If itemA is player and itemB is ground or       
+        //If itemA is groundChecker and itemB is ground or       
         //the other way around, allow jump
-        if itemA:GetName() = "ground" and itemB:GetName() = "player" or 
-        itemB:GetName() = "player" and itemA:GetName() = "ground"
-            jumpAllowed = true
+        if itemA:GetName() = "ground" and itemB:GetName() = "ground checker" or 
+        itemB:GetName() = "ground checker" and itemA:GetName() = "ground"
+            grounded = true
         end
     end
     
@@ -36,11 +37,12 @@ class CollisionTracker is CollisionListener2D
         Drawable itemA = cast(Drawable, event:GetItemA())
         Drawable itemB = cast(Drawable, event:GetItemB())
         
-        //If itemA is player and itemB is ground or       
+        //If itemA is groundChecker and itemB is ground or       
         //the other way around, don't allow jumping anymore
-        if itemA:GetName() = "ground" and itemB:GetName() = "player" or 
-        itemB:GetName() = "player" and itemA:GetName() = "ground"
-            jumpAllowed = false
+        if itemA:GetName() = "ground" and itemB:GetName() = "ground checker" or 
+        itemB:GetName() = "ground checker" and itemA:GetName() = "ground"
+            grounded = false
         end
     end
+*/
 end

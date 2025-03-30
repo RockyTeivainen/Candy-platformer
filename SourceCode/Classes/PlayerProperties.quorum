@@ -7,92 +7,81 @@ use Libraries.Interface.Events.KeyboardEvent
 use Libraries.Interface.Events.CollisionListener2D
 use Libraries.Interface.Events.CollisionEvent2D
 use Libraries.Interface.Item2D
+use Libraries.Containers.List
 
 
 
-class PlayerProperties is KeyboardListener, CollisionListener2D
+class PlayerProperties is CollisionListener2D
     PhysicsHandler physics
     Drawable player
+    Drawable groundChecker
     Color playerColor
+    UI ui
+    boolean leftHeld = ui:GetLeftHeld()
+    boolean rightHeld = ui:GeRighttHeld()
+    boolean jumpPressed = ui:GetJumpPressed()
 
-    //Support variables leftHeld, rightHeld, jumpAllowed, isJumping
-    boolean leftHeld = false
-    boolean rightHeld = false
-    boolean jumpAllowed = false
-    boolean jumpPressed = false
+
+
+    //Support variables leftHeld, rightHeld, 
+    //grounded, jumpPressed, currentSpeed
+    boolean grounded = false
+    Color groundCheckerColor
 
     
     //Create the player with pre-defined dimensions, name, color, and position
     action CreatePlayer
         player:SetName("player")
         player:LoadFilledCircle(60)
-        player:SetPosition(1280,200.51147065127617)
+        player:SetPosition(1280,/*200.51147065127617*/ 300)
         playerColor:SetHexColor("#191970")
         player:SetColor(playerColor)
         player:EnablePhysics(true)
         player:SetResponsive()
         player:SetCollidable(true)
     end
-    
+   
+/* 
+    //Create the ground checker
+    action CreateGroundChecker
+        //Player's ground checker
+        groundChecker:SetName("ground checker")
+        groundChecker:LoadFilledRectangle(20,20)
+        groundChecker:SetPosition(player:GetCenterX()/2, 20)
+        groundCheckerColor:SetHexColor("#89CFF0")
+        groundChecker:SetColor(groundCheckerColor)
+        groundChecker:SetCollidable(true)
+        player:Add(groundChecker)
+    end
+*/
 
-
-    //Get the player drawable
+    //Get the player Drawable
     action GetPlayer() returns Drawable
     return player
     end
     
-    //Get the jumpAllowed boolean
-    action GetJumpAllowed returns boolean
-        return jumpAllowed
+/*
+    //Get the ground checker Drawable
+    action GetGroundChecker returns Drawable
+        return groundChecker
+    end
+*/
+    //Get the grounded boolean
+    action GetGrounded returns boolean
+        return grounded
     end
 
-    
-    action PressedKey(KeyboardEvent event)
-        //Movement key behaviour when pressing
-        //If A or left arrow pressed, leftHeld becomes true
-        if event:keyCode = event:A or event:keyCode = event:LEFT
-            leftHeld = true
-        //If S or right arrow pressed, rightHeld becomes true
-        elseif event:keyCode = event:D or 
-        event:keyCode = event:RIGHT
-            rightHeld = true
-        end
 
-        //Jump key behaviour when pressing
-        //If W, space or up arrow pressed, jumpPressed becomes true
-        if event:keyCode = event:W or 
-        event:keyCode = event:UP or
-        event:keyCode = event:SPACE
-            jumpPressed = true
-        end
-    end
-    action ReleasedKey(KeyboardEvent event)
-        //Movement key behaviour when releasing
-        //If A or left arrow released, leftHeld becomes false
-        if event:keyCode = event:A or event:keyCode = event:LEFT
-            leftHeld = false
-        //If D or right arrow released, rightHeld becomes false
-        elseif event:keyCode = event:D or event:keyCode = event:RIGHT
-            rightHeld = false
-       
-        end
-        //Jump key behaviour when releasing
-        //If W, space or up arrow pressed, jumpPressed becomes true
-        if event:keyCode = event:W or 
-        event:keyCode = event:UP or
-        event:keyCode = event:SPACE
-            jumpPressed = false
-        end
-    end
     
 
 
     //Move the player when the correct keys are pressed
+    
     action MovePlayer
         //Speed value
-        integer speed = 100
+        integer speed = 300
         //Move left if leftHeld is true
-        if leftHeld
+        if leftHeld = true
             player:SetLinearVelocityX(-speed)
         //Move right if rightHeld is true
         elseif rightHeld
@@ -105,13 +94,12 @@ class PlayerProperties is KeyboardListener, CollisionListener2D
     //Jumping
     action Jump
         //Jump force value
-        integer jumpForce = 40
+        integer jumpForce = 400
         if jumpPressed
             player:SetLinearVelocityY(jumpForce)
         end
+
     end
-
-
 
 end
 

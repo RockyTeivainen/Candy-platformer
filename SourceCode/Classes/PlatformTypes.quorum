@@ -3,18 +3,19 @@ use Libraries.Containers.List
 class PlatformTypes
     List<Platform> PlatformList
     
+    //Narrow platform with the width of 50
+        Platform narrowPlatform
+        narrowPlatform:name = "Narrow platform" //Set platform name
+        narrowPlatform:width = 50   //Set platform width
+        //Set the coordinates
+        narrowPlatform:xPosition = 0
+        narrowPlatform:yPosition = 455
+        narrowPlatform:hexCode = "#000000" //Color of the platform type
 
     //Add the platform variations to the list
     action AddPlatformOptions
-        //Narrow platform with width of 30
-        Platform narrowPlatform
-        narrowPlatform:name = "Narrow platform" //Set platform name
-        narrowPlatform:width = 30   //Set platform width
-        //Set the coordinates
-        narrowPlatform:xPosition = 2560/2
-        narrowPlatform:yPosition = 400
-        narrowPlatform:hexCode = "#0000" //Color of the platform type
         PlatformList:Add(narrowPlatform)
+                         
     end
 
     //Make it possible to inherit the list to other classes
