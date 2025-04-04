@@ -1,0 +1,34 @@
+use Libraries.Game.Graphics.Drawable
+use Libraries.Game.Graphics.Color
+
+
+//Class for creating a Collectible for the game
+class Collectible
+    Drawable Collectible //Drawale for the Collectible
+    integer Width = 0 //Width of the Collectible type
+    //Values for creating the Collectible
+    text name = "" //Collectible name with "" as a 
+    integer width = 0 //Collectible width with 0 as a placeholder
+    //Coordinates
+    integer xPosition = 0
+    integer yPosition = 0
+    text hexCode = "" //Create variable to store the hex code for the wanted color
+    Color color //Color of the Collectible type
+    
+    //Create the Collectible
+    action CreateCollectible
+        Collectible:SetName(name)
+        Collectible:LoadFilledRectangle(width, 100) 
+        Collectible:SetPosition(xPosition, yPosition)
+        color:SetHexColor(hexCode)
+        Collectible:SetColor(color)
+        Collectible:EnablePhysics(true)
+        Collectible:SetUnmovable()
+        Collectible:SetCollidable(true)
+    end
+    //Inherit the Collectible to elsewhere
+    action GetCollectible returns Drawable
+        return Collectible
+    end
+    
+end

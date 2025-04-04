@@ -91,8 +91,8 @@ class Main is Game
         //Get the esc boolean
         esc = playerObject:GetEsc() 
         //If esc is true or player goes outside the screen, exit the game
-        if esc or player:GetX() > 2560 or player:GetX() < 0
-            output player:GetX()
+        if esc or player:GetX() > 2560 or player:GetCenterX() + player:GetWidth()/2 < 0
+            output "(" + player:GetX() + ", " + player:GetY() + ")"
             Exit()
         end
     end

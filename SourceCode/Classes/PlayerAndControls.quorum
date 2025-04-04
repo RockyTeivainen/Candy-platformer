@@ -22,7 +22,7 @@ class PlayerAndControls is KeyboardListener
     action CreatePlayer
         player:SetName("player")
         player:LoadFilledCircle(60)
-        player:SetPosition(1280,/*200.51147065127617*/ 300)
+        player:SetPosition(-51, 470.01676483653887)
         playerColor:SetHexColor("#191970")
         player:SetColor(playerColor)
         player:EnablePhysics(true)
