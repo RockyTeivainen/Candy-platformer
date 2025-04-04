@@ -3,21 +3,19 @@ use Libraries.Game.Game
 use Libraries.Game.Graphics.Drawable
 use Libraries.Compute.Vector2
 use Libraries.Containers.List
+use Libraries.Interface.Item2D
 
 class Main is Game
     //Create the neseccary objects and a boolean that will help with jumps
     ScreenResolution resolution 
     GroundProperties groundObject
-    PlayerProperties playerObject
+    PlayerAndControls playerObject
     Drawable ground
     Drawable player
-    Drawable groundChecker
+    Item2D groundChecker 
     PhysicsHandler physics
     CollisionTracker collisions
-    UI ui
-    boolean escPressed = ui:GetEscPressed()
-    
-    boolean grounded = playerObject:GetGrounded()
+    boolean esc = false
     
     
     List<Platform> PlatformList 
@@ -34,9 +32,11 @@ class Main is Game
     end
 
     action CreateGame
+        
+        
+        //Enable physics
         EnablePhysics2D(true)
-        
-        
+ 
         //Create the ground, groundChecher and player
         groundObject:CreateGround()
         //playerObject:CreateGroundChecker()
@@ -57,7 +57,7 @@ class Main is Game
 
         
         //Add keyboard listener to the game
-        AddKeyboardListener(ui)
+        AddKeyboardListener(playerObject)
 
         
 
@@ -88,10 +88,11 @@ class Main is Game
     end
 
     action Update(number seconds)
-        
-        playerObject:MovePlayer()
-        playerObject:Jump()
-        if escPressed
+        //Get the esc boolean
+        esc = playerObject:GetEsc() 
+        //If esc is true or player goes outside the screen, exit the game
+        if esc or player:GetX() > 2560 or player:GetX() < 0
+            output player:GetX()
             Exit()
         end
     end

@@ -9,6 +9,6 @@ class PhysicsHandler
     end
     
     action ApplyGravity
-        gameReference:SetGravity2D(0, -100)
+        gameReference:SetGravity2D(0, -400)
     end
 end

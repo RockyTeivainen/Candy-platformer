@@ -11,13 +11,14 @@ class CollisionTracker is CollisionListener2D
     //and PlayerProperties classes to use their
     //contents
     GroundProperties groundObject
-    PlayerProperties playerObject
+    PlayerAndControls playerObject
     //Get ground and player from their own classes
     Drawable ground = groundObject:GetGround()
     Drawable player = playerObject:GetPlayer()
-    //Drawable groundChecker = playerObject:GetGroundChecker()
+    
+    
 
-/*
+
     //Check for collisions
     action BeginCollision(CollisionEvent2D event)
         //Get the items from the collision
@@ -44,5 +45,5 @@ class CollisionTracker is CollisionListener2D
             grounded = false
         end
     end
-*/
+
 end

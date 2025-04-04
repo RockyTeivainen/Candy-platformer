@@ -1,0 +1,99 @@
+use Libraries.Game.Game
+use Libraries.Game.Graphics.Drawable
+use Libraries.Game.Graphics.Color
+use Libraries.Interface.Events.KeyboardListener
+use Libraries.Interface.Events.KeyboardEvent
+use Libraries.Interface.Item2D
+
+
+
+class PlayerAndControls is KeyboardListener
+    PhysicsHandler physics
+    Drawable player
+    Color playerColor
+    Item2D groundChecker
+
+    //Support variable esc
+    boolean esc = false
+    
+
+    
+    //Create the player with pre-defined dimensions, name, color, and position
+    action CreatePlayer
+        player:SetName("player")
+        player:LoadFilledCircle(60)
+        player:SetPosition(1280,/*200.51147065127617*/ 300)
+        playerColor:SetHexColor("#191970")
+        player:SetColor(playerColor)
+        player:EnablePhysics(true)
+        player:SetResponsive()
+        player:SetCollidable(true)
+        
+
+    end
+    
+    
+    //Get the player Drawable
+    action GetPlayer() returns Drawable
+    return player
+    end
+
+
+    //Move the player when the correct keys are pressed
+    action PressedKey(KeyboardEvent event)
+        //Store speed
+        integer speed = 400
+        //Movement key behaviour when pressing
+        //If A or left arrow pressed, move left
+        if event:keyCode = event:A 
+        or event:keyCode = event:LEFT
+            player:SetLinearVelocityX(-speed)
+        //If D or right arrow pressed, rightHeld becomes true
+        elseif event:keyCode = event:D 
+        or event:keyCode = event:RIGHT
+            player:SetLinearVelocityX(speed)
+        end
+ 
+        //Jump key behaviour when pressing
+        integer jumpForce = 350
+        //If W, space or up arrow pressed, jumpPressed becomes true
+        if event:keyCode = event:W 
+        or event:keyCode = event:UP 
+        or event:keyCode = event:SPACE
+            player:SetLinearVelocityY(jumpForce)
+        end
+        //If Esc is pressed, close the game
+        if event:keyCode = event:ESCAPE
+            esc = true
+        end
+    end
+
+    action ReleasedKey(KeyboardEvent event)
+        //Movement key behaviour when releasing keys
+        //If movement keys released, stop the player
+        if event:keyCode = event:A 
+        or event:keyCode = event:LEFT
+        or event:keyCode = event:D 
+        or event:keyCode = event:RIGHT
+            player:SetLinearVelocityX(0)
+        end
+ 
+        //Jump key behaviour when pressing
+        integer jumpForce = 600
+        //If W, space or up arrow pressed, jumpPressed becomes true
+        if event:keyCode = event:W 
+        or event:keyCode = event:UP 
+        or event:keyCode = event:SPACE
+            player:SetLinearVelocityY(jumpForce)
+        end
+        //If Esc is pressed, close the game
+        if event:keyCode = event:ESCAPE
+            esc = true
+        end
+    end
+    //Get the esc boolean
+    action GetEsc returns boolean
+        return esc
+    end
+end
+

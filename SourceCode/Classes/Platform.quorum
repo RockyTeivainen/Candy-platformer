@@ -1,6 +1,6 @@
 use Libraries.Game.Graphics.Drawable
 use Libraries.Game.Graphics.Color
-use Libraries.Compute.Vector2
+
 
 //Class for creating a platform for the game
 class Platform
