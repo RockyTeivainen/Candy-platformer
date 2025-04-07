@@ -30,5 +30,12 @@ class Platform
     action GetPlatform returns Drawable
         return platform
     end
-    
+    //Inherit the x position
+    action GetXPosition returns integer
+        return xPosition
+    end
+    //Inherit the y position
+    action GetYPosition returns integer
+        return yPosition
+    end
 end

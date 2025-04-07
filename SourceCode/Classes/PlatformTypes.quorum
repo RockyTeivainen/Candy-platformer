@@ -31,12 +31,47 @@ class PlatformTypes
         widePlatform:hexCode = "#00eff0" //Color of the platform type
         
 
+
+
+
+
+
+        //Another set of platformss
+        //Narrow platform with the width of 50 px
+        Platform narrowPlatform2
+        narrowPlatform2:name = "Narrow platform" //Set platform name
+        narrowPlatform2:width = 50   //Set platform width
+        //Set the coordinates
+        narrowPlatform2:xPosition = widePlatform:GetXPosition() + 500
+        narrowPlatform2:yPosition = widePlatform:GetXPosition() + 75
+        narrowPlatform2:hexCode = "#89cff0" //Color of the platform type
+        
+        //Medium platform with width of 75 px
+        Platform mediumPlatform2
+        mediumPlatform2:name = "medium Platform" //Set platfoem name
+        mediumPlatform2:width = 75   //Set platform width
+        //Set the coordinates
+        mediumPlatform2:xPosition = narrowPlatform2:GetXPosition() + 200
+        mediumPlatform2:yPosition = narrowPlatform2:GetYPosition() + 150
+        mediumPlatform2:hexCode = "#00cff0" //Color of the platform type
+
+        //Wide platform with width of 100 px
+        Platform widePlatform2
+        widePlatform2:name = "medium Platform" //Set platfoem name
+        widePlatform2:width = 100   //Set platform width
+        //Set the coordinates
+        widePlatform2:xPosition = 620
+        widePlatform2:yPosition = 465
+        widePlatform2:hexCode = "#00eff0" //Color of the platform type
         
     //Add the platform variations to the list
     action AddPlatformOptions
         PlatformList:Add(narrowPlatform)
         PlatformList:Add(mediumPlatform)
-        PlatformList:Add(widePlatform)          
+        PlatformList:Add(widePlatform)
+        PlatformList:Add(narrowPlatform2)
+        PlatformList:Add(mediumPlatform2)
+        PlatformList:Add(widePlatform2)         
     end
 
     //Make it possible to inherit the list to other classes
