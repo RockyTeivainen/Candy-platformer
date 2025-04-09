@@ -20,9 +20,9 @@ class PlayerAndControls is KeyboardListener, CollisionListener2D
     Drawable checker
     GroundProperties groundObject
     Drawable ground = groundObject:GetGround()
-    //Support variable esc
+    //Support variables esc, canJump
     boolean esc = false
-    
+    boolean canJump = false
 
     
     //Create the player with pre-defined dimensions, name, color, and position
@@ -33,16 +33,19 @@ class PlayerAndControls is KeyboardListener, CollisionListener2D
         playerColor:SetHexColor("#191970")
         player:SetColor(playerColor)
         player:EnablePhysics(true)
+        //Make player unable to rotate
+        player:CanRotate(false)
         player:SetResponsive()
         player:SetCollidable(true)
-        
+        /*
         checker:SetName("checker")
         checker:LoadFilledRectangle(20, 20)
-        checker:SetPosition(20, -20)
-        checker:SetCollidable(true)
+        checker:SetPosition(10, -20)
         checker:EnablePhysics(true)
+        checker:SetCollidable(true)
+    
         player:Add(checker)
-        
+        */
         
         
     end
@@ -70,11 +73,11 @@ class PlayerAndControls is KeyboardListener, CollisionListener2D
         end
  
         //Jump key behaviour when pressing
-        integer jumpForce = 350
-        //If W, space or up arrow pressed, jumpPressed becomes true
-        if event:keyCode = event:W 
-        or event:keyCode = event:UP 
-        or event:keyCode = event:SPACE
+        integer jumpForce = 550
+        //If W, space or up arrow pressed and canJump is true, player jumps
+        if event:keyCode = event:W and canJump
+        or event:keyCode = event:UP and canJump
+        or event:keyCode = event:SPACE and canJump
         
             player:SetLinearVelocityY(jumpForce)
         end
@@ -93,20 +96,8 @@ class PlayerAndControls is KeyboardListener, CollisionListener2D
         or event:keyCode = event:RIGHT
             player:SetLinearVelocityX(0)
         end
- 
-        //Jump key behaviour when pressing
-        integer jumpForce = 600
-        //If W, space or up arrow pressed, jumpPressed becomes true
-        if event:keyCode = event:W 
-        or event:keyCode = event:UP 
-        or event:keyCode = event:SPACE
-            player:SetLinearVelocityY(jumpForce)
-        end
-        //If Esc is pressed, close the game
-        if event:keyCode = event:ESCAPE
-            esc = true
-        end
     end
+
     //Get the esc boolean
     action GetEsc returns boolean
         return esc
@@ -114,10 +105,28 @@ class PlayerAndControls is KeyboardListener, CollisionListener2D
 
 
     //Collisions
-    action BeginCollision(CollisionEvent2D event)
-        
-    end
 
+    //When collision starts
+    action BeginCollision(CollisionEvent2D event)
+        Drawable itemA = cast(Drawable, event:GetItemA())
+        Drawable itemB = cast(Drawable, event:GetItemB())
+        //Set canJump to true
+        if itemA:GetName() = "ground" and itemB:GetName() = "player"
+        or itemB:GetName() = "ground" and itemA:GetName() = "player"
+            canJump = true
+        end
+    end
+    
+    //When collision ends
+    action FinishCollision(CollisionEvent2D event)
+        Drawable itemA = cast(Drawable, event:GetItemA())
+        Drawable itemB = cast(Drawable, event:GetItemB())
+        //SEt canJump to false
+        if itemA:GetName() = "ground" and itemB:GetName() = "player"
+        or itemB:GetName() = "ground" and itemA:GetName() = "player"
+            canJump = false
+        end
+    end
     
 end
 
