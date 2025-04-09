@@ -12,9 +12,8 @@ class Main is Game
     PlayerAndControls playerObject
     Drawable ground
     Drawable player
-    Item2D groundChecker 
+    Item2D checker 
     PhysicsHandler physics
-    CollisionTracker collisions
     boolean esc = false
     
     
@@ -39,11 +38,11 @@ class Main is Game
  
         //Create the ground, groundChecher and player
         groundObject:CreateGround()
-        //playerObject:CreateGroundChecker()
+        //playerObject:Createchecker()
         playerObject:CreatePlayer()
         //Get them
         ground = groundObject:GetGround()
-        //groundChecker = playerObject:GetGroundChecker()
+        //checker = playerObject:Getchecker()
         player = playerObject:GetPlayer()
         //And finally, add them
         Add(ground)
@@ -56,9 +55,9 @@ class Main is Game
         physics:ApplyGravity()
 
         
-        //Add keyboard listener to the game
+        //Add keyboard and collision listeners
         AddKeyboardListener(playerObject)
-
+        AddCollisionListener(playerObject)
         
 
 

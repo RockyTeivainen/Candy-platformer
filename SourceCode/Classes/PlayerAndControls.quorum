@@ -4,15 +4,22 @@ use Libraries.Game.Graphics.Color
 use Libraries.Interface.Events.KeyboardListener
 use Libraries.Interface.Events.KeyboardEvent
 use Libraries.Interface.Item2D
+use Libraries.Interface.Events.CollisionEvent2D
+use Libraries.Interface.Events.CollisionListener2D
 
+use Libraries.Game.Game
 
+use Libraries.Game.Graphics.Color
+use Libraries.Interface.Events.KeyboardEvent
+use Libraries.Compute.Vector2
 
-class PlayerAndControls is KeyboardListener
+class PlayerAndControls is KeyboardListener, CollisionListener2D
     PhysicsHandler physics
     Drawable player
     Color playerColor
-    Item2D groundChecker
-
+    Drawable checker
+    GroundProperties groundObject
+    Drawable ground = groundObject:GetGround()
     //Support variable esc
     boolean esc = false
     
@@ -21,17 +28,24 @@ class PlayerAndControls is KeyboardListener
     //Create the player with pre-defined dimensions, name, color, and position
     action CreatePlayer
         player:SetName("player")
-        player:LoadFilledCircle(60)
-        player:SetPosition(-51, 470.01676483653887)
+        player:LoadFilledRectangle(40, 40)
+        player:SetPosition(20, 470.01676483653887)
         playerColor:SetHexColor("#191970")
         player:SetColor(playerColor)
         player:EnablePhysics(true)
         player:SetResponsive()
         player:SetCollidable(true)
         
-
+        checker:SetName("checker")
+        checker:LoadFilledRectangle(20, 20)
+        checker:SetPosition(20, -20)
+        checker:SetCollidable(true)
+        checker:EnablePhysics(true)
+        player:Add(checker)
+        
+        
+        
     end
-    
     
     //Get the player Drawable
     action GetPlayer() returns Drawable
@@ -41,6 +55,7 @@ class PlayerAndControls is KeyboardListener
 
     //Move the player when the correct keys are pressed
     action PressedKey(KeyboardEvent event)
+        
         //Store speed
         integer speed = 400
         //Movement key behaviour when pressing
@@ -60,6 +75,7 @@ class PlayerAndControls is KeyboardListener
         if event:keyCode = event:W 
         or event:keyCode = event:UP 
         or event:keyCode = event:SPACE
+        
             player:SetLinearVelocityY(jumpForce)
         end
         //If Esc is pressed, close the game
@@ -95,5 +111,15 @@ class PlayerAndControls is KeyboardListener
     action GetEsc returns boolean
         return esc
     end
+
+
+    //Collisions
+    action BeginCollision(CollisionEvent2D event)
+        
+    end
+
+    
 end
+
+
 
