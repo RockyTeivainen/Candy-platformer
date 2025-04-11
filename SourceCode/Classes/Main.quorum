@@ -3,6 +3,7 @@ use Libraries.Game.Game
 use Libraries.Game.Graphics.Drawable
 use Libraries.Compute.Vector2
 use Libraries.Containers.List
+use Libraries.Containers.Iterator
 use Libraries.Interface.Item2D
 
 class Main is Game
@@ -71,6 +72,18 @@ class Main is Game
         
         //Create and add platforms
         PlatformList = platformManager:GetPlatforms()
+
+        //create an iterator to traverse our array
+        Iterator<Platform> it = PlatformList:GetIterator()
+        //Keep iterating if more elements exist
+        repeat while it:HasNext()
+            //get the next item.
+            Platform Current = it:Next()
+            
+       end
+
+
+
         integer i = 0
         Drawable currentPlatform
         repeat while i < PlatformList:GetSize()

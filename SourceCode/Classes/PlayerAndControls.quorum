@@ -6,14 +6,10 @@ use Libraries.Interface.Events.KeyboardEvent
 use Libraries.Interface.Item2D
 use Libraries.Interface.Events.CollisionEvent2D
 use Libraries.Interface.Events.CollisionListener2D
-
-use Libraries.Game.Game
-
-use Libraries.Game.Graphics.Color
-use Libraries.Interface.Events.KeyboardEvent
-use Libraries.Compute.Vector2
+use Libraries.Containers.List
 
 class PlayerAndControls is KeyboardListener, CollisionListener2D
+    PlatformTypes platformHandler
     PhysicsHandler physics
     Drawable player
     Color playerColor
@@ -23,6 +19,7 @@ class PlayerAndControls is KeyboardListener, CollisionListener2D
     //Support variables esc, canJump
     boolean esc = false
     boolean canJump = false
+    List<Platform> Platforms = platformHandler:GetPlatforms()
 
     
     //Create the player with pre-defined dimensions, name, color, and position
@@ -37,17 +34,6 @@ class PlayerAndControls is KeyboardListener, CollisionListener2D
         player:CanRotate(false)
         player:SetResponsive()
         player:SetCollidable(true)
-        /*
-        checker:SetName("checker")
-        checker:LoadFilledRectangle(20, 20)
-        checker:SetPosition(10, -20)
-        checker:EnablePhysics(true)
-        checker:SetCollidable(true)
-    
-        player:Add(checker)
-        */
-        
-        
     end
     
     //Get the player Drawable
@@ -111,9 +97,22 @@ class PlayerAndControls is KeyboardListener, CollisionListener2D
         Drawable itemA = cast(Drawable, event:GetItemA())
         Drawable itemB = cast(Drawable, event:GetItemB())
         //Set canJump to true
+/*
         if itemA:GetName() = "ground" and itemB:GetName() = "player"
         or itemB:GetName() = "ground" and itemA:GetName() = "player"
+
             canJump = true
+        end
+*/
+        //Test if the player touches the ground or any of the platforms
+        integer i = 0
+        Platform current
+        repeat while i < Platforms:GetSize()
+            current = Platforms:Get(i)
+            
+            if itemA:GetName() = current:GetPlatformName() and itemB:GetName() = "player"
+            or itemB:GetName() = "ground" and itemA:GetName() = "player"
+            end
         end
     end
     
