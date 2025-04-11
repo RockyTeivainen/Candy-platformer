@@ -97,22 +97,25 @@ class PlayerAndControls is KeyboardListener, CollisionListener2D
         Drawable itemA = cast(Drawable, event:GetItemA())
         Drawable itemB = cast(Drawable, event:GetItemB())
         //Set canJump to true
-/*
+
         if itemA:GetName() = "ground" and itemB:GetName() = "player"
         or itemB:GetName() = "ground" and itemA:GetName() = "player"
 
             canJump = true
         end
-*/
-        //Test if the player touches the ground or any of the platforms
+
+        //Test if the player touches any of the platforms
         integer i = 0
-        Platform current
+
         repeat while i < Platforms:GetSize()
-            current = Platforms:Get(i)
+            Platforms:Get(i)
             
-            if itemA:GetName() = current:GetPlatformName() and itemB:GetName() = "player"
-            or itemB:GetName() = "ground" and itemA:GetName() = "player"
+            if itemA:GetName() = Platforms:Get(i):GetPlatformName() and itemB:GetName() = "player"
+            or itemB:GetName() = Platforms:Get(i):GetPlatformName() and itemA:GetName() = "player"
+                canJump = true
             end
+            
+            i = i + 1
         end
     end
     
@@ -120,10 +123,19 @@ class PlayerAndControls is KeyboardListener, CollisionListener2D
     action FinishCollision(CollisionEvent2D event)
         Drawable itemA = cast(Drawable, event:GetItemA())
         Drawable itemB = cast(Drawable, event:GetItemB())
-        //SEt canJump to false
-        if itemA:GetName() = "ground" and itemB:GetName() = "player"
-        or itemB:GetName() = "ground" and itemA:GetName() = "player"
-            canJump = false
+
+        //Test if the player touches any of the platforms
+        integer i = 0
+
+        repeat while i < Platforms:GetSize()
+            Platforms:Get(i)
+            
+            if itemA:GetName() = Platforms:Get(i):GetPlatformName() and itemB:GetName() = "player"
+            or itemB:GetName() = Platforms:Get(i):GetPlatformName() and itemA:GetName() = "player"
+                canJump = false
+            end
+            
+            i = i + 1
         end
     end
     

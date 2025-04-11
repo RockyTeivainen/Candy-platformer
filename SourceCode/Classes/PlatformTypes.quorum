@@ -65,7 +65,7 @@ class PlatformTypes
         widePlatform2:hexCode = "#00eff0" //Color of the platform type
         
     //Add the platform variations to the list
-    action AddPlatformOptions
+    action AddPlatforms
         PlatformList:Add(narrowPlatform)
         PlatformList:Add(mediumPlatform)
         PlatformList:Add(widePlatform)
@@ -76,6 +76,10 @@ class PlatformTypes
 
     //Make it possible to inherit the list to other classes
     action GetPlatforms returns List<Platform>
+        //If PlatformList is empty, call for AddPlatforms first
+        if PlatformList:GetSize() = 0
+            AddPlatforms()
+        end
         return PlatformList
     end
 end

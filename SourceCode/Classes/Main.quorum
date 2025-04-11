@@ -68,7 +68,7 @@ class Main is Game
 
 
         //Add the platform variations to the list
-        platformManager:AddPlatformOptions()
+        platformManager:AddPlatforms()
         
         //Create and add platforms
         PlatformList = platformManager:GetPlatforms()
