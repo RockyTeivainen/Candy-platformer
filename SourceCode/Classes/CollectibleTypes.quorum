@@ -1,0 +1,39 @@
+use Libraries.Containers.List
+
+class CollectibleTypes
+    //List for the collectible items
+    List<Collectible> CollectibleList
+    //Create the collectibles
+    action CreateCollectibles
+        //Candy made of mixed rock(s)
+        Collectible rockCandy
+        //Set the values
+        rockCandy:name = "rock candy"
+        rockCandy:width = 50
+        rockCandy:height = 50
+        
+        //Put it above the second platform 
+        //counting from left to right
+    end
+        
+
+
+
+
+
+
+        
+    //Add the Collectible variations to the list
+    action AddCollectibles
+              
+    end
+
+    //Make it possible to inherit the list to other classes
+    action GetCollectibles returns List<Collectible>
+        //If CollectibleList is empty, call for AddCollectibles first
+        if CollectibleList:GetSize() = 0
+            AddCollectibles()
+        end
+        return CollectibleList
+    end
+end
