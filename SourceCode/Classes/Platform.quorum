@@ -4,6 +4,7 @@ use Libraries.Game.Graphics.Color
 
 //Class for creating a platform for the game
 class Platform
+    PhysicsHandler physics
     Drawable platform //Drawale for the platform
     integer platformWidth = 0 //Width of the platform type
     //Values for creating the platform
@@ -14,19 +15,32 @@ class Platform
     integer yPosition = 0
     text hexCode = "" //Create variable to store the hex code for the wanted color
     Color color //Color of the platform type
-    
-    //Create the platform
-    action CreatePlatform
-        platform:SetName(name)
-        platform:LoadFilledRectangle(width, 100) 
-        platform:SetPosition(xPosition, yPosition)
-        color:SetHexColor(hexCode)
-        platform:SetColor(color)
+    on create  
+        //Values for creating the platform
+        name = ""
+        width = 0
+        //Coordinates
+        xPosition = 0
+        yPosition = 0
+
         platform:EnablePhysics(true)
         platform:SetUnmovable()
         platform:SetCollidable(true)
     end
-    //Inherit the platform to elsewhere
+    
+    //Set platform name and width
+    action SetNameAndWidth(text name, integer width)
+        platform:SetName(name)
+        platform:LoadFilledRectangle(width, 10)
+    end
+
+    //Set platform position
+    action SetPosition(integer x, integer y)
+        xPosition = x
+        yPosition = y
+        platform:SetPosition(x, y)
+    end
+    //Inherit the platform Drawable to elsewhere
     action GetPlatform returns Drawable
         return platform
     end

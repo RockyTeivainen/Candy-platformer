@@ -9,7 +9,7 @@ use Libraries.Interface.Events.CollisionListener2D
 use Libraries.Containers.List
 
 class PlayerAndControls is KeyboardListener, CollisionListener2D
-    PlatformTypes platformHandler
+    PlatformTypes platformManager
     PhysicsHandler physics
     Drawable player
     Color playerColor
@@ -18,8 +18,9 @@ class PlayerAndControls is KeyboardListener, CollisionListener2D
     Drawable ground = groundObject:GetGround()
     //Support variables esc, canJump
     boolean esc = false
-    boolean canJump = false
-    List<Platform> Platforms = platformHandler:GetPlatforms()
+    boolean canJump = false 
+    List<Platform> Platforms = platformManager:GetPlatforms()
+    
 
     
     //Create the player with pre-defined dimensions, name, color, and position
@@ -97,7 +98,7 @@ class PlayerAndControls is KeyboardListener, CollisionListener2D
         Drawable itemA = cast(Drawable, event:GetItemA())
         Drawable itemB = cast(Drawable, event:GetItemB())
         //Set canJump to true
-
+        //Playeyer can jump if on the ground
         if itemA:GetName() = "ground" and itemB:GetName() = "player"
         or itemB:GetName() = "ground" and itemA:GetName() = "player"
 
@@ -106,7 +107,7 @@ class PlayerAndControls is KeyboardListener, CollisionListener2D
 
         //Test if the player touches any of the platforms
         integer i = 0
-
+        
         repeat while i < Platforms:GetSize()
             Platforms:Get(i)
             
@@ -117,6 +118,7 @@ class PlayerAndControls is KeyboardListener, CollisionListener2D
             
             i = i + 1
         end
+
     end
     
     //When collision ends
@@ -124,6 +126,12 @@ class PlayerAndControls is KeyboardListener, CollisionListener2D
         Drawable itemA = cast(Drawable, event:GetItemA())
         Drawable itemB = cast(Drawable, event:GetItemB())
 
+        if itemA:GetName() = "ground" and itemB:GetName() = "player"
+        or itemB:GetName() = "ground" and itemA:GetName() = "player"
+            canJump = false
+        end
+        
+/*
         //Test if the player touches any of the platforms
         integer i = 0
 
@@ -137,6 +145,7 @@ class PlayerAndControls is KeyboardListener, CollisionListener2D
             
             i = i + 1
         end
+*/
     end
     
 end

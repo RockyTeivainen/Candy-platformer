@@ -18,9 +18,12 @@ class Main is Game
     boolean esc = false
     
     
-    List<Platform> PlatformList 
+    List<Platform> Platforms 
     PlatformTypes platformManager
-    
+    CollectibleTypes collectibleManager
+    //Create list for the collectibles 
+    List<Collectible> Collectibles
+    //Get the filled list from CollectibleTypes
 
 
     
@@ -32,24 +35,19 @@ class Main is Game
     end
 
     action CreateGame
-        
-        
         //Enable physics
         EnablePhysics2D(true)
  
-        //Create the ground, groundChecher and player
+        //Create the ground and player
         groundObject:CreateGround()
-        //playerObject:Createchecker()
         playerObject:CreatePlayer()
         //Get them
         ground = groundObject:GetGround()
-        //checker = playerObject:Getchecker()
         player = playerObject:GetPlayer()
         //And finally, add them
         Add(ground)
         Add(player)
         
-
         
         //Add gravity
         physics:PhysicsHandler(me)
@@ -59,44 +57,10 @@ class Main is Game
         //Add keyboard and collision listeners
         AddKeyboardListener(playerObject)
         AddCollisionListener(playerObject)
-        
-
-
-
-
-
-
-
-        //Add the platform variations to the list
-        platformManager:AddPlatforms()
-        
-        //Create and add platforms
-        PlatformList = platformManager:GetPlatforms()
-
-        //create an iterator to traverse our array
-        Iterator<Platform> it = PlatformList:GetIterator()
-        //Keep iterating if more elements exist
-        repeat while it:HasNext()
-            //get the next item.
-            Platform Current = it:Next()
-            
-       end
-
-
-
-        integer i = 0
-        Drawable currentPlatform
-        repeat while i < PlatformList:GetSize()
-            Platform current = PlatformList:Get(i)
-            current:CreatePlatform()
-            currentPlatform = current:GetPlatform()
-            Add(currentPlatform)
-            i = i + 1
-
-        
-        end
-        
-    
+        //Get Platforms
+        Platforms = platformManager:GetPlatforms()
+        //Add platforms
+        Add(Platforms:Get(0):GetPlatform())
     end
 
     action Update(number seconds)

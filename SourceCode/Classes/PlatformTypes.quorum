@@ -1,85 +1,23 @@
 use Libraries.Containers.List
 
 class PlatformTypes
-    List<Platform> PlatformList
+    PhysicsHandler physics
+    List<Platform> Platforms
+    Platform narrowPlatform
     
-        //Narrow platform with the width of 50 px
-        Platform narrowPlatform
-        narrowPlatform:name = "Narrow platform" //Set platform name
-        narrowPlatform:width = 50   //Set platform width
-        //Set the coordinates
-        narrowPlatform:xPosition = 0
-        narrowPlatform:yPosition = 370
-        narrowPlatform:hexCode = "#89cff0" //Color of the platform type
-        
-        //Medium platform with width of 75 px
-        Platform mediumPlatform
-        mediumPlatform:name = "medium Platform" //Set platfoem name
-        mediumPlatform:width = 75   //Set platform width
-        //Set the coordinates
-        mediumPlatform:xPosition = 200
-        mediumPlatform:yPosition = 480
-        mediumPlatform:hexCode = "#00cff0" //Color of the platform type
-
-        //Wide platform with width of 100 px
-        Platform widePlatform
-        widePlatform:name = "medium Platform" //Set platfoem name
-        widePlatform:width = 100   //Set platform width
-        //Set the coordinates
-        widePlatform:xPosition = 425
-        widePlatform:yPosition = 355
-        widePlatform:hexCode = "#00eff0" //Color of the platform type
-        
-
-
-
-
-
-
-        //Another set of platformss
-        //Narrow platform with the width of 50 px
-        Platform narrowPlatform2
-        narrowPlatform2:name = "Narrow platform" //Set platform name
-        narrowPlatform2:width = 50   //Set platform width
-        //Set the coordinates
-        narrowPlatform2:xPosition = widePlatform:GetXPosition() + 500
-        narrowPlatform2:yPosition = widePlatform:GetXPosition() + 75
-        narrowPlatform2:hexCode = "#89cff0" //Color of the platform type
-        
-        //Medium platform with width of 75 px
-        Platform mediumPlatform2
-        mediumPlatform2:name = "medium Platform" //Set platfoem name
-        mediumPlatform2:width = 75   //Set platform width
-        //Set the coordinates
-        mediumPlatform2:xPosition = narrowPlatform2:GetXPosition() + 200
-        mediumPlatform2:yPosition = narrowPlatform2:GetYPosition() + 150
-        mediumPlatform2:hexCode = "#00cff0" //Color of the platform type
-
-        //Wide platform with width of 100 px
-        Platform widePlatform2
-        widePlatform2:name = "medium Platform" //Set platfoem name
-        widePlatform2:width = 100   //Set platform width
-        //Set the coordinates
-        widePlatform2:xPosition = 620
-        widePlatform2:yPosition = 465
-        widePlatform2:hexCode = "#00eff0" //Color of the platform type
-        
-    //Add the platform variations to the list
+    
     action AddPlatforms
-        PlatformList:Add(narrowPlatform)
-        PlatformList:Add(mediumPlatform)
-        PlatformList:Add(widePlatform)
-        PlatformList:Add(narrowPlatform2)
-        PlatformList:Add(mediumPlatform2)
-        PlatformList:Add(widePlatform2)         
+        narrowPlatform:SetNameAndWidth("test", 23)
+        //Set new position
+        narrowPlatform:SetPosition(20, 471) //Bug: Not actually changing the position on the screen
+        Platforms:Add(narrowPlatform)
     end
-
-    //Make it possible to inherit the list to other classes
     action GetPlatforms returns List<Platform>
-        //If PlatformList is empty, call for AddPlatforms first
-        if PlatformList:GetSize() = 0
+        //If Platforms is empty 
+        //when GetPlatforms is called, call AddPlatforms
+        if Platforms:GetSize() < 1
             AddPlatforms()
         end
-        return PlatformList
+        return Platforms
     end
 end
