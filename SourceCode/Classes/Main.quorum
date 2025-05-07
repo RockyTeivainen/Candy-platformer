@@ -7,8 +7,16 @@ use Libraries.Containers.Iterator
 use Libraries.Interface.Item2D
 
 class Main is Game
-    //Create the neseccary objects and a boolean that will help with jumps
+    //Create the neseccary objects
     ScreenResolution resolution 
+
+    List<Platform> Platforms 
+    PlatformTypes platformManager
+    CollectibleTypes collectibleManager
+    //Create list for the collectibles 
+    List<Collectible> Collectibles
+    
+
     GroundProperties groundObject
     PlayerAndControls playerObject
     Drawable ground
@@ -18,12 +26,7 @@ class Main is Game
     boolean esc = false
     
     
-    List<Platform> Platforms 
-    PlatformTypes platformManager
-    CollectibleTypes collectibleManager
-    //Create list for the collectibles 
-    List<Collectible> Collectibles
-    //Get the filled list from CollectibleTypes
+    
 
 
     
@@ -38,14 +41,22 @@ class Main is Game
         //Enable physics
         EnablePhysics2D(true)
  
-        //Create the ground and player
-        groundObject:CreateGround()
+        //Create the ground, platforms and player
+        groundObject:CreateGround("ground", 2650, 0, 0)
+        platformManager:SetPlatforms()
         playerObject:CreatePlayer()
+        
         //Get them
         ground = groundObject:GetGround()
+        Platforms = platformManager: GetPlatforms()
         player = playerObject:GetPlayer()
         //And finally, add them
         Add(ground)
+        integer i = 0
+        repeat while i < Platforms:GetSize()
+            Add(Platforms:Get(i):GetPlatform())
+            i = i + 1
+        end
         Add(player)
         
         
@@ -57,10 +68,7 @@ class Main is Game
         //Add keyboard and collision listeners
         AddKeyboardListener(playerObject)
         AddCollisionListener(playerObject)
-        //Get Platforms
-        Platforms = platformManager:GetPlatforms()
-        //Add platforms
-        Add(Platforms:Get(0):GetPlatform())
+        
     end
 
     action Update(number seconds)

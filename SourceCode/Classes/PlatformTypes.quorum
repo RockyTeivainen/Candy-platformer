@@ -4,13 +4,20 @@ class PlatformTypes
     PhysicsHandler physics
     List<Platform> Platforms
     Platform narrowPlatform
-    
+    Platform mediumPlatform
+    action SetPlatforms
+        //Set the platform values
+        narrowPlatform:SetNameAndWidth("narrow platform", 25)
+        narrowPlatform:SetPosition(20, 460)
+        mediumPlatform:SetNameAndWidth("medium platform", 50)
+        mediumPlatform:SetPosition(200, 480)
+        
+        
+    end
     
     action AddPlatforms
-        narrowPlatform:SetNameAndWidth("test", 23)
-        //Set new position
-        narrowPlatform:SetPosition(20, 471) //Bug: Not actually changing the position on the screen
         Platforms:Add(narrowPlatform)
+        Platforms:Add(mediumPlatform)
     end
     action GetPlatforms returns List<Platform>
         //If Platforms is empty 

@@ -8,8 +8,8 @@ class Platform
     Drawable platform //Drawale for the platform
     integer platformWidth = 0 //Width of the platform type
     //Values for creating the platform
-    text name = "" //Platform name with "" as a 
-    integer width = 0 //Platform width with 0 as a placeholder
+    text name = "" //platform name with "" as a 
+    integer width = 0 //platform width with 0 as a platformaceholder
     //Coordinates
     integer xPosition = 0
     integer yPosition = 0
@@ -18,7 +18,7 @@ class Platform
     on create  
         //Values for creating the platform
         name = ""
-        width = 0
+        width = 1
         //Coordinates
         xPosition = 0
         yPosition = 0

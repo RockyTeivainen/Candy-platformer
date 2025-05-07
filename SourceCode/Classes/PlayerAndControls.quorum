@@ -13,12 +13,11 @@ class PlayerAndControls is KeyboardListener, CollisionListener2D
     PhysicsHandler physics
     Drawable player
     Color playerColor
-    Drawable checker
     GroundProperties groundObject
     Drawable ground = groundObject:GetGround()
-    //Support variables esc, canJump
+    //Support variables esc, grounded
     boolean esc = false
-    boolean canJump = false 
+    boolean grounded = false 
     List<Platform> Platforms = platformManager:GetPlatforms()
     
 
@@ -27,7 +26,7 @@ class PlayerAndControls is KeyboardListener, CollisionListener2D
     action CreatePlayer
         player:SetName("player")
         player:LoadFilledRectangle(40, 40)
-        player:SetPosition(20, 470.01676483653887)
+        player:SetPosition(20, 475)
         playerColor:SetHexColor("#191970")
         player:SetColor(playerColor)
         player:EnablePhysics(true)
@@ -61,10 +60,10 @@ class PlayerAndControls is KeyboardListener, CollisionListener2D
  
         //Jump key behaviour when pressing
         integer jumpForce = 550
-        //If W, space or up arrow pressed and canJump is true, player jumps
-        if event:keyCode = event:W and canJump
-        or event:keyCode = event:UP and canJump
-        or event:keyCode = event:SPACE and canJump
+        
+        //If SPACE or up arrow pressed and grounded is true, player jumps
+        if event:keyCode = event:UP and grounded
+        or event:keyCode = event:SPACE and grounded
         
             player:SetLinearVelocityY(jumpForce)
         end
@@ -97,12 +96,12 @@ class PlayerAndControls is KeyboardListener, CollisionListener2D
     action BeginCollision(CollisionEvent2D event)
         Drawable itemA = cast(Drawable, event:GetItemA())
         Drawable itemB = cast(Drawable, event:GetItemB())
-        //Set canJump to true
+        //Set grounded to true
         //Playeyer can jump if on the ground
         if itemA:GetName() = "ground" and itemB:GetName() = "player"
         or itemB:GetName() = "ground" and itemA:GetName() = "player"
 
-            canJump = true
+            grounded = true
         end
 
         //Test if the player touches any of the platforms
@@ -113,7 +112,7 @@ class PlayerAndControls is KeyboardListener, CollisionListener2D
             
             if itemA:GetName() = Platforms:Get(i):GetPlatformName() and itemB:GetName() = "player"
             or itemB:GetName() = Platforms:Get(i):GetPlatformName() and itemA:GetName() = "player"
-                canJump = true
+                grounded = true
             end
             
             i = i + 1
@@ -128,10 +127,10 @@ class PlayerAndControls is KeyboardListener, CollisionListener2D
 
         if itemA:GetName() = "ground" and itemB:GetName() = "player"
         or itemB:GetName() = "ground" and itemA:GetName() = "player"
-            canJump = false
+            grounded = false
         end
         
-/*
+
         //Test if the player touches any of the platforms
         integer i = 0
 
@@ -140,12 +139,12 @@ class PlayerAndControls is KeyboardListener, CollisionListener2D
             
             if itemA:GetName() = Platforms:Get(i):GetPlatformName() and itemB:GetName() = "player"
             or itemB:GetName() = Platforms:Get(i):GetPlatformName() and itemA:GetName() = "player"
-                canJump = false
+                grounded = false
             end
             
             i = i + 1
         end
-*/
+
     end
     
 end
