@@ -1,61 +1,27 @@
-use Libraries.Game.Graphics.Drawable
+use Libraries.Game.Game
 use Libraries.Game.Graphics.Color
+use Libraries.Game.Graphics.Drawable
 
-
-//Class for creating a platform for the game
 class Platform
-    PhysicsHandler physics
-    Drawable platform //Drawale for the platform
-    integer platformWidth = 0 //Width of the platform type
-    //Values for creating the platform
-    text name = "" //platform name with "" as a 
-    integer width = 0 //platform width with 0 as a platformaceholder
-    //Coordinates
-    integer xPosition = 0
-    integer yPosition = 0
-    text hexCode = "" //Create variable to store the hex code for the wanted color
-    Color color //Color of the platform type
-    on create  
-        //Values for creating the platform
-        name = ""
-        width = 1
-        //Coordinates
-        xPosition = 0
-        yPosition = 0
-
+    Drawable platform
+    //Create new platform
+    action CreatePlatform(text name, integer width, number x, number y)
+        platform:SetName(name)
+        platform:LoadFilledRectangle(width, 20)
+        platform:SetPosition(x, y)
+        //Enable physics and set collidable
         platform:EnablePhysics(true)
         platform:SetUnmovable()
-        platform:SetCollidable(true)
+        
     end
-    
-    //Set platform name and width
-    action SetNameAndWidth(text name, integer width)
-        platform:SetName(name)
-        platform:LoadFilledRectangle(width, 10)
+    //Change platform color
+    action SetPlatformColor(text hexCode)
+        Color color
+        color:SetHexColor(hexCode)
+        platform:SetColor(color)
     end
-
-    //Set platform position
-    action SetPosition(integer x, integer y)
-        xPosition = x
-        yPosition = y
-        platform:SetPosition(x, y)
-    end
-    //Inherit the platform Drawable to elsewhere
+    //Return platform Drawable
     action GetPlatform returns Drawable
         return platform
-    end
-    //Inherit name
-    action GetPlatformName returns text
-        return name
-    end
-
-
-    //Inherit the x position
-    action GetXPosition returns integer
-        return xPosition
-    end
-    //Inherit the y position
-    action GetYPosition returns integer
-        return yPosition
     end
 end

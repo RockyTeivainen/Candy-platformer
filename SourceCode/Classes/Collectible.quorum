@@ -1,9 +1,0 @@
-use Libraries.Game.Graphics.Drawable
-use Libraries.Game.Graphics.Color
-
-
-//Class for creating a collectible for the game
-class Collectible
-    Drawable collectible //Drawale for the collectible
-    
-end

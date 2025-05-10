@@ -1,0 +1,43 @@
+use Libraries.Game.Game
+use Libraries.Game.Graphics.Color
+use Libraries.Game.Graphics.Drawable
+use Libraries.Containers.List
+use Libraries.Interface.Item2D
+use Libraries.Interface.Events.KeyboardEvent
+use Libraries.Interface.Events.KeyboardListener
+
+use Libraries.Interface.Events.CollisionEvent2D
+use Libraries.Interface.Events.CollisionListener2D
+
+
+class PlayerAndUi is KeyboardListener, CollisionListener2D
+    Drawable player
+    integer speed = 0
+    integer jumpForce = 0
+
+    //Define the player
+    action CreatePlayer(text name, integer size, number x, number y)
+        player:SetName(name)
+        player:LoadFilledRectangle(size, size)
+        player:SetPosition(x, y)
+        //Enable physics and set collidable
+        player:EnablePhysics(true)
+        player:SetResponsive()
+        player:SetCollidable(true)
+    end
+    //Getting player
+    action GetPlayer returns Drawable
+        return player
+    end
+    boolean esc = false
+    //Get the esc boolean
+    action GetEsc returns boolean
+        return esc
+    end
+    //Controls
+    action PressedKey(KeyboardEvent event)
+        if event:keyCode = event:ESCAPE
+            esc = true
+        end
+    end
+end

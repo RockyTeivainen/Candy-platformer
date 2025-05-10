@@ -1,29 +1,24 @@
 use Libraries.Game.ScreenResolution
 use Libraries.Game.Game
+use Libraries.Game.Graphics.Color
 use Libraries.Game.Graphics.Drawable
-use Libraries.Compute.Vector2
 use Libraries.Containers.List
-use Libraries.Containers.Iterator
-use Libraries.Interface.Item2D
 
 class Main is Game
     //Create the neseccary objects
     ScreenResolution resolution 
-
-    List<Platform> Platforms 
-    PlatformTypes platformManager
-    CollectibleTypes collectibleManager
-    //Create list for the collectibles 
-    List<Collectible> Collectibles
-    
-
-    GroundProperties groundObject
-    PlayerAndControls playerObject
-    Drawable ground
-    Drawable player
-    Item2D checker 
     PhysicsHandler physics
-    boolean esc = false
+    //Background
+    Color backgroundColor
+    Drawable background
+    //Platforms
+    Terrain terrain
+    List<Platform> Platforms = terrain:GetPlatforms()
+    //Player and controls
+    PlayerAndUi playerManager
+    Drawable player
+
+    
     
     
     
@@ -33,50 +28,43 @@ class Main is Game
    
     action Main
         UseDesktopResolution()
-        resolution:GetWidth()
         StartGame()
     end
 
     action CreateGame
-        //Enable physics
+        //Set the background color
+        backgroundColor:SetHexColor("#191970")
+        //Draw the background
+        background:LoadFilledRectangle(2650, 1600, backgroundColor)
+        background:SetPosition(0, 0, 1)
+        //Add(background)
+        //Listen for keyboard input
+        AddKeyboardListener(playerManager)
+
+        //Enable physics and gravity
         EnablePhysics2D(true)
- 
-        //Create the ground, platforms and player
-        groundObject:CreateGround("ground", 2650, 0, 0)
-        platformManager:SetPlatforms()
-        playerObject:CreatePlayer()
-        
-        //Get them
-        ground = groundObject:GetGround()
-        Platforms = platformManager: GetPlatforms()
-        player = playerObject:GetPlayer()
-        //And finally, add them
-        Add(ground)
+        physics:PhysicsHandler(me)
+        physics:ApplyGravity()
+        //Create the platforms
+        terrain:CreatePlatforms()
+        //Add Platforms to the game
         integer i = 0
         repeat while i < Platforms:GetSize()
             Add(Platforms:Get(i):GetPlatform())
-            i = i + 1
+            i = i +1
         end
+        //Get the player
+        playerManager:CreatePlayer("player", 50, 200, 150)
+        player = playerManager:GetPlayer()
+        //Add the player
         Add(player)
-        
-        
-        //Add gravity
-        physics:PhysicsHandler(me)
-        physics:ApplyGravity()
-
-        
-        //Add keyboard and collision listeners
-        AddKeyboardListener(playerObject)
-        AddCollisionListener(playerObject)
         
     end
 
     action Update(number seconds)
-        //Get the esc boolean
-        esc = playerObject:GetEsc() 
-        //If esc is true or player goes outside the screen, exit the game
-        if esc or player:GetX() > 2560 or player:GetCenterX() + player:GetWidth()/2 < 0
+        if playerManager:GetEsc()
             Exit()
+        
         end
     end
 end
