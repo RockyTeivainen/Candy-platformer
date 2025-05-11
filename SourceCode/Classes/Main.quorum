@@ -11,9 +11,9 @@ class Main is Game
     //Background
     Color backgroundColor
     Drawable background
-    //Platforms
+    //Terrain
     Terrain terrain
-    List<Platform> Platforms = terrain:GetPlatforms()
+    List<Platform> TerrainList = terrain:GetTerrain()
     //Player and controls
     PlayerAndUi playerManager
     Drawable player
@@ -38,7 +38,8 @@ class Main is Game
         background:LoadFilledRectangle(2650, 1600, backgroundColor)
         background:SetPosition(0, 0, 1)
         //Add(background)
-        //Listen for keyboard input
+        //Listen for keyboard input and collisions
+        AddCollisionListener(playerManager)
         AddKeyboardListener(playerManager)
 
         //Enable physics and gravity
@@ -47,14 +48,14 @@ class Main is Game
         physics:ApplyGravity()
         //Create the platforms
         terrain:CreatePlatforms()
-        //Add Platforms to the game
+        //Add terrain to the game
         integer i = 0
-        repeat while i < Platforms:GetSize()
-            Add(Platforms:Get(i):GetPlatform())
+        repeat while i < TerrainList:GetSize()
+            Add(TerrainList:Get(i):GetPlatform())
             i = i +1
         end
         //Get the player
-        playerManager:CreatePlayer("player", 50, 200, 150)
+        playerManager:CreatePlayer("player", 50, TerrainList:Get(1):GetPlatform():GetX(), 250)
         player = playerManager:GetPlayer()
         //Add the player
         Add(player)

@@ -4,39 +4,39 @@ use Libraries.Game.Graphics.Drawable
 use Libraries.Containers.List
 
 class Terrain
-    List<Platform> Platforms
+    List<Platform> TerrainList
     Platform ground
     Platform platform1
     Platform platform2
     Platform platform3
     Platform platform4
     Platform platform5
-    //Create platforms
+    //Create Platforms
     action CreatePlatforms
         //Set name, size and position
         ground:CreatePlatform("ground", 2650, 0, 0)
         platform1:CreatePlatform("platform 1", 50, 200, 180)
         platform2:CreatePlatform("platform 2", 90, 300, 260)
         platform3:CreatePlatform("platform 3", 75, 430, 300)
-        //Set colors for the platforms
+        //Set colors for the TerrainList
         ground:SetPlatformColor("#008000")
         platform1:SetPlatformColor("0ff0fc")
         platform2:SetPlatformColor("0ff0fc")
         platform3:SetPlatformColor("0ff0fc")
 
     end
-    //Add platforms to the list
-    action AddPlatforms
-        Platforms:Add(ground)
-        Platforms:Add(platform1)
-        Platforms:Add(platform2)
-        Platforms:Add(platform3)
+    //Add TerrainList to the list
+    action AddTerrainList
+        TerrainList:Add(ground)
+        TerrainList:Add(platform1)
+        TerrainList:Add(platform2)
+        TerrainList:Add(platform3)
     end
     //Get the filled list
-    action GetPlatforms returns List<Platform>
-        if Platforms:GetSize() < 1
-            AddPlatforms()
+    action GetTerrain returns List<Platform>
+        if TerrainList:GetSize() < 1
+            AddTerrainList()
         end
-        return Platforms
+        return TerrainList
     end
 end

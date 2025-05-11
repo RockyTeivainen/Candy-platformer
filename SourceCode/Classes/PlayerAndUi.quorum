@@ -5,6 +5,7 @@ use Libraries.Containers.List
 use Libraries.Interface.Item2D
 use Libraries.Interface.Events.KeyboardEvent
 use Libraries.Interface.Events.KeyboardListener
+use Libraries.Compute.Vector2
 
 use Libraries.Interface.Events.CollisionEvent2D
 use Libraries.Interface.Events.CollisionListener2D
@@ -12,8 +13,14 @@ use Libraries.Interface.Events.CollisionListener2D
 
 class PlayerAndUi is KeyboardListener, CollisionListener2D
     Drawable player
-    integer speed = 0
-    integer jumpForce = 0
+    integer speed = 300
+    integer currentSpeed = 0
+    integer jumpForce = 250
+    boolean grounded = false
+
+    //Get the terrain
+    Terrain terrain
+    List<Platform> TerrainList = terrain:GetTerrain()
 
     //Define the player
     action CreatePlayer(text name, integer size, number x, number y)
@@ -36,8 +43,50 @@ class PlayerAndUi is KeyboardListener, CollisionListener2D
     end
     //Controls
     action PressedKey(KeyboardEvent event)
+        //Set esc to true for exiting the game
         if event:keyCode = event:ESCAPE
             esc = true
         end
+        //Movement
+        //Move player left when pressing A or the left arrow
+        if event:keyCode = event:A 
+        or event:keyCode = event:LEFT
+            player:SetLinearVelocityX(-speed)
+            //Store the current speed
+            currentSpeed = -speed
+        end
+        
+        //Move player right when pressing D or the right arrow
+        if event:keyCode = event:D 
+        or event:keyCode = event:RIGHT
+            player:SetLinearVelocityX(speed)
+            //Store the current speed
+            currentSpeed = speed
+        end
     end
+
+    action ReleasedKey(KeyboardEvent event)
+        //Movement
+        //When releasing all keys, stop the player
+        if event:keyCode = event:A 
+        or event:keyCode = event:LEFT
+        or event:keyCode = event:D 
+        or event:keyCode = event:RIGHT
+            player:SetLinearVelocityX(0)
+        end
+    end
+    //Collisions
+    action BeginCollision(CollisionEvent2D event)
+        Item2D itemA = cast(Item2D, event:GetItemA())
+        Item2D itemB = cast(Item2D, event:GetItemB())
+        //Check if the player touches any of the terrain elements
+        integer i = 0
+        text currentName = ""
+        repeat while i < TerrainList:GetSize()
+            currentName = TerrainList:Get(i):GetPlatform():GetName()
+            output i +1 + ": " + currentName //Debug line
+            i = i +1
+        end
+    end
+
 end

@@ -10,7 +10,6 @@
     "ImageSheetBuildPath" : "/resources",
     "ImageSheetEnabled" : true,
     "ImageSheetRebuildOnCompile" : true,
-    "ImageSheets" : {        "" : []    },
     "Main" : "\SourceCode\Classes\Main.quorum",
     "Project Version" : "1.0",
     "ProjectName" : "Candy platformer",
