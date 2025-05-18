@@ -24,4 +24,7 @@ class Platform
     action GetPlatform returns Drawable
         return platform
     end
+    action GetPlatformName returns text
+        return platform:GetName()
+    end
 end

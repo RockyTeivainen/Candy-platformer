@@ -46,8 +46,8 @@ class Main is Game
         EnablePhysics2D(true)
         physics:PhysicsHandler(me)
         physics:ApplyGravity()
-        //Create the platforms
-        terrain:CreatePlatforms()
+        //Define the platforms
+        terrain:DefinePlatforms()
         //Add terrain to the game
         integer i = 0
         repeat while i < TerrainList:GetSize()
@@ -55,7 +55,7 @@ class Main is Game
             i = i +1
         end
         //Get the player
-        playerManager:CreatePlayer("player", 50, TerrainList:Get(1):GetPlatform():GetX(), 250)
+        playerManager:CreatePlayer("player", 50, TerrainList:Get(1):GetPlatform():GetX(), 300)
         player = playerManager:GetPlayer()
         //Add the player
         Add(player)
@@ -67,6 +67,7 @@ class Main is Game
             Exit()
         
         end
+        //Check linear velocity Y
     end
 end
 

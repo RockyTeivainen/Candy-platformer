@@ -12,10 +12,11 @@ use Libraries.Interface.Events.CollisionListener2D
 
 
 class PlayerAndUi is KeyboardListener, CollisionListener2D
+    Color color
     Drawable player
     integer speed = 300
     integer currentSpeed = 0
-    integer jumpForce = 250
+    integer jumpForce = 380
     boolean grounded = false
 
     //Get the terrain
@@ -24,9 +25,10 @@ class PlayerAndUi is KeyboardListener, CollisionListener2D
 
     //Define the player
     action CreatePlayer(text name, integer size, number x, number y)
+        color:SetHexColor("#191970")
         player:SetName(name)
-        player:LoadFilledRectangle(size, size)
-        player:SetPosition(x, y)
+        player:LoadFilledRectangle(size, size, color)
+        player:SetPosition(x, y, -1)
         //Enable physics and set collidable
         player:EnablePhysics(true)
         player:SetResponsive()
@@ -55,7 +57,6 @@ class PlayerAndUi is KeyboardListener, CollisionListener2D
             //Store the current speed
             currentSpeed = -speed
         end
-        
         //Move player right when pressing D or the right arrow
         if event:keyCode = event:D 
         or event:keyCode = event:RIGHT
@@ -63,11 +64,16 @@ class PlayerAndUi is KeyboardListener, CollisionListener2D
             //Store the current speed
             currentSpeed = speed
         end
+        //Jump when pressing space or up while grounded
+        if event:keyCode = event:SPACE and grounded
+        or event:keyCode = event:UP and grounded
+            player:SetLinearVelocityY(jumpForce)
+        end
     end
 
     action ReleasedKey(KeyboardEvent event)
         //Movement
-        //When releasing all keys, stop the player
+        //When releasing movement keys, stop
         if event:keyCode = event:A 
         or event:keyCode = event:LEFT
         or event:keyCode = event:D 
@@ -78,15 +84,45 @@ class PlayerAndUi is KeyboardListener, CollisionListener2D
     //Collisions
     action BeginCollision(CollisionEvent2D event)
         Item2D itemA = cast(Item2D, event:GetItemA())
-        Item2D itemB = cast(Item2D, event:GetItemB())
-        //Check if the player touches any of the terrain elements
+        Item2D itemB = cast(Item2D, event:GetItemB())        
+
+        //Check if the player collides with the terrain
+        //If the ground is unnamed, call DefinePlatforms()
+        if TerrainList:Get(0):GetPlatform():GetName() not= "ground"
+            terrain:DefinePlatforms()
+        end
         integer i = 0
         text currentName = ""
+        
         repeat while i < TerrainList:GetSize()
-            currentName = TerrainList:Get(i):GetPlatform():GetName()
-            output i +1 + ": " + currentName //Debug line
+            currentName = TerrainList:Get(i):GetPlatformName()
+            if itemA:GetName() = currentName
+            and itemB:GetName() = "player"
+                grounded = true 
+            end
             i = i +1
         end
     end
+    action FinishCollision(CollisionEvent2D event)
+        Item2D itemA = cast(Item2D, event:GetItemA())
+        Item2D itemB = cast(Item2D, event:GetItemB())        
 
+        //Check if the player collides with the terrain
+        //If the ground is unnamed, call DefinePlatforms()
+        if TerrainList:Get(0):GetPlatform():GetName() not= "ground"
+            terrain:DefinePlatforms()
+        end
+        integer i = 0
+        text currentName = ""
+        
+        repeat while i < TerrainList:GetSize()
+            currentName = TerrainList:Get(i):GetPlatformName()
+            if itemA:GetName() = currentName
+            and itemB:GetName() = "player"
+                grounded = false 
+            end
+            i = i +1
+        end
+    end
 end
+

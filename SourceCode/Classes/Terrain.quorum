@@ -12,7 +12,7 @@ class Terrain
     Platform platform4
     Platform platform5
     //Create Platforms
-    action CreatePlatforms
+    action DefinePlatforms
         //Set name, size and position
         ground:CreatePlatform("ground", 2650, 0, 0)
         platform1:CreatePlatform("platform 1", 50, 200, 180)
