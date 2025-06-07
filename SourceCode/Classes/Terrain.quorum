@@ -4,39 +4,107 @@ use Libraries.Game.Graphics.Drawable
 use Libraries.Containers.List
 
 class Terrain
-    List<Platform> TerrainList
-    Platform ground
-    Platform platform1
-    Platform platform2
-    Platform platform3
-    Platform platform4
-    Platform platform5
-    //Create Platforms
-    action DefinePlatforms
-        //Set name, size and position
-        ground:CreatePlatform("ground", 2650, 0, 0)
-        platform1:CreatePlatform("platform 1", 50, 200, 180)
-        platform2:CreatePlatform("platform 2", 90, 300, 260)
-        platform3:CreatePlatform("platform 3", 75, 430, 300)
-        //Set colors for the TerrainList
-        ground:SetPlatformColor("#008000")
-        platform1:SetPlatformColor("0ff0fc")
-        platform2:SetPlatformColor("0ff0fc")
-        platform3:SetPlatformColor("0ff0fc")
-
-    end
-    //Add TerrainList to the list
-    action AddTerrainList
-        TerrainList:Add(ground)
-        TerrainList:Add(platform1)
-        TerrainList:Add(platform2)
-        TerrainList:Add(platform3)
+    List<Drawable> Terrain
+    Color c
+    //Add Terrain to the list
+    action AddTerrain(Drawable platform)
+        Terrain:Add(platform)
+        
     end
     //Get the filled list
-    action GetTerrain returns List<Platform>
-        if TerrainList:GetSize() < 1
-            AddTerrainList()
+    action GetTerrain returns List<Drawable>
+        if Terrain:GetSize() < 1
+            AddTerrain(CreateGround())
+            
+
+
+            AddTerrain(SmallPlatform(155, 180)) //Platform width 50 px
+            AddTerrain(LargePlatform(300, 470)) //Platform width 90 px
+            AddTerrain(MediumPlatform(430, 310)) //Platform width 75 px
+            
+
         end
-        return TerrainList
+        return Terrain
     end
+    //Creating the ground 
+    action CreateGround returns Drawable
+        Drawable ground
+        //Name, size and position
+        ground:SetName("ground")
+        ground:LoadFilledRectangle(2650, 20)
+        ground:SetPosition(0, 0)
+        //Physics and collisions
+        ground:EnablePhysics(true)
+        ground:SetUnmovable()
+        ground:SetCollidable(true)
+
+        //Set default color
+        Color color
+        color = color:Green()
+        ground:SetColor(color)
+        return ground
+    end
+
+    //Creating small platforms
+    action SmallPlatform(number x, number y) returns Drawable
+        Drawable platform
+
+        platform:SetName("small platform")
+        platform:LoadFilledRectangle(50, 20)
+        platform:SetPosition(x, y)
+
+        //Physics and collisions
+        platform:EnablePhysics(true)
+        platform:SetUnmovable()
+        platform:SetCollidable(true)
+
+        //Set default color
+        Color color
+        color:SetHexColor("#89CFF0")
+        platform:SetColor(color)
+        return platform
+    end
+
+    //Creating medium platforms
+    action MediumPlatform(number x, number y) returns Drawable
+        Drawable platform
+
+        platform:SetName("medium platform")
+        platform:LoadFilledRectangle(75, 20)
+        platform:SetPosition(x, y)
+
+        //Physics and collisions
+        platform:EnablePhysics(true)
+        platform:SetUnmovable()
+        platform:SetCollidable(true)
+
+        //Set default color
+        Color color
+        color:SetHexColor("#89CFF0")
+        platform:SetColor(color)
+        return platform
+    end
+    
+    //Creating large platforms
+    action LargePlatform(number x, number y) returns Drawable
+        Drawable platform
+
+        platform:SetName("large platform")
+        platform:LoadFilledRectangle(90, 20)
+        platform:SetPosition(x, y)
+
+        //Physics and collisions
+        platform:EnablePhysics(true)
+        platform:SetUnmovable()
+        platform:SetCollidable(true)
+
+        //Set default color
+        Color color
+        color:SetHexColor("#89CFF0")
+        platform:SetColor(color)
+        return platform
+    end
+
 end
+
+

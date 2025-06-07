@@ -7,34 +7,39 @@ use Libraries.Interface.Events.KeyboardEvent
 use Libraries.Interface.Events.KeyboardListener
 use Libraries.Compute.Vector2
 
+
 use Libraries.Interface.Events.CollisionEvent2D
 use Libraries.Interface.Events.CollisionListener2D
 
 
-class PlayerAndUi is KeyboardListener, CollisionListener2D
+class PlayerAndControls is KeyboardListener, CollisionListener2D
     Color color
     Drawable player
     integer speed = 300
     integer currentSpeed = 0
     integer jumpForce = 380
     boolean grounded = false
+    
 
-    //Get the terrain
+    
     Terrain terrain
-    List<Platform> TerrainList = terrain:GetTerrain()
+    List<Drawable> TerrainList
+    
+        
 
     //Define the player
     action CreatePlayer(text name, integer size, number x, number y)
-        color:SetHexColor("#191970")
+        color:SetHexColor("#791470")
         player:SetName(name)
         player:LoadFilledRectangle(size, size, color)
         player:SetPosition(x, y, -1)
         //Enable physics and set collidable
         player:EnablePhysics(true)
+        player:CanRotate(false)
         player:SetResponsive()
         player:SetCollidable(true)
     end
-    //Getting player
+    //Getting the player
     action GetPlayer returns Drawable
         return player
     end
@@ -81,21 +86,20 @@ class PlayerAndUi is KeyboardListener, CollisionListener2D
             player:SetLinearVelocityX(0)
         end
     end
+
+    
     //Collisions
     action BeginCollision(CollisionEvent2D event)
+        TerrainList = terrain:GetTerrain()
         Item2D itemA = cast(Item2D, event:GetItemA())
         Item2D itemB = cast(Item2D, event:GetItemB())        
 
         //Check if the player collides with the terrain
-        //If the ground is unnamed, call DefinePlatforms()
-        if TerrainList:Get(0):GetPlatform():GetName() not= "ground"
-            terrain:DefinePlatforms()
-        end
         integer i = 0
         text currentName = ""
         
         repeat while i < TerrainList:GetSize()
-            currentName = TerrainList:Get(i):GetPlatformName()
+            currentName = TerrainList:Get(i):GetName()
             if itemA:GetName() = currentName
             and itemB:GetName() = "player"
                 grounded = true 
@@ -104,19 +108,15 @@ class PlayerAndUi is KeyboardListener, CollisionListener2D
         end
     end
     action FinishCollision(CollisionEvent2D event)
+        TerrainList = terrain:GetTerrain()
         Item2D itemA = cast(Item2D, event:GetItemA())
         Item2D itemB = cast(Item2D, event:GetItemB())        
 
-        //Check if the player collides with the terrain
-        //If the ground is unnamed, call DefinePlatforms()
-        if TerrainList:Get(0):GetPlatform():GetName() not= "ground"
-            terrain:DefinePlatforms()
-        end
         integer i = 0
         text currentName = ""
         
         repeat while i < TerrainList:GetSize()
-            currentName = TerrainList:Get(i):GetPlatformName()
+            currentName = TerrainList:Get(i):GetName()
             if itemA:GetName() = currentName
             and itemB:GetName() = "player"
                 grounded = false 
